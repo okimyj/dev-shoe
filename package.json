@@ -16,7 +16,7 @@
     "D": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "firebase": "^10.11.0",
+    "firebase": "10.7.2",
     "lucide-react": "^0.368.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",

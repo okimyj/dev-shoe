@@ -19,14 +19,13 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    signup(data.email, data.password)
+    signup({ ...data })
       .then((res) => {
         navigate("/");
       })
       .catch((res) => {
         if (res.error.code && res.error.code === "auth/invalid-email") {
         }
-        console.log("res.error.code : ", res.error.code);
         console.log(res.error);
       });
   };
