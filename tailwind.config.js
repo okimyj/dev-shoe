@@ -1,20 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+const pxToRem = (px, base = 16) => `${px / base}rem`;
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {
@@ -71,7 +69,31 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      width: {
+        "body-l": pxToRem(1440),
+        "body-inner-l": pxToRem(1140),
+      },
+      fontSize: {
+        "logo-l": pxToRem(64),
+        "logo-s": pxToRem(20),
+      },
+      fontFamily: {
+        logo: ["Black Ops One"],
+        defaultEn: ["Bakbak One"],
+      },
+      spacing: {
+        ...Array(10, 200).reduce((acc, px) => {
+          acc[`${px}pxr`] = pxToRem(px);
+          return acc;
+        }, {}),
+        // "10pxr": pxToRem(10),
+        // "200pxr": pxToRem(200),
+        // ...Array.from({ length: 300 }, (_, i) => i + 1).reduce((acc, px) => {
+        //   acc[`${px}pxr`] = pxToRem(px);
+        //   return acc;
+        // }, {}),
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
