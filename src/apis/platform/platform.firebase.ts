@@ -43,6 +43,7 @@ class FirebasePlatform implements Platform {
         });
     });
   }
+
   signin(email: string, password: string): Promise<CommonResponse> {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(getAuth(this.app), email, password)
@@ -56,6 +57,8 @@ class FirebasePlatform implements Platform {
         });
     });
   }
+
+  addDoc() {}
 }
 
 export default FirebasePlatform;

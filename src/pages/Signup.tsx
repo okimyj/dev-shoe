@@ -5,8 +5,11 @@ import Logo from "@/components/logo/Logo";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import InnerBody from "./layout/body/inner/InnerBody";
+import { Checkbox } from "@/components/ui/checkbox";
 type Inputs = {
   email: string;
+  nickname: string;
+  isSeller: boolean;
   password: string;
   passwordConfirm: string;
 };
@@ -46,6 +49,16 @@ const SignupPage = () => {
           type="password"
           {...register("passwordConfirm")}
         />
+        <Input
+          className="mb-10pxr w-200pxr"
+          placeholder="Enter Nickname"
+          {...register("nickname")}
+        />
+
+        <label>
+          <Checkbox {...register("isSeller")} /> isSeller
+        </label>
+
         <Button type="submit" className="w-200pxr font-logo">
           Login To Email
         </Button>
