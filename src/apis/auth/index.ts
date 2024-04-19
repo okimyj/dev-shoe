@@ -1,13 +1,13 @@
 import { where } from "firebase/firestore";
 import FirebaseAuth from "../firebase/firebaseAuth";
 import FirebaseDB from "../firebase/firebaseDB";
-import { UserData, UserDocumentData } from "./types";
+import { IUserData, UserDocumentData } from "./types";
 import { DB_TYPE } from "../firebase/constants";
 const useAuthAPI = () => {
   const authPlatform = new FirebaseAuth();
   const dbPlatform = new FirebaseDB();
 
-  const signup = (userData: UserData): Promise<UserDocumentData> => {
+  const signup = (userData: IUserData): Promise<UserDocumentData> => {
     return new Promise((resolve, reject) => {
       authPlatform
         .signup(userData.email, userData.password)
@@ -22,7 +22,7 @@ const useAuthAPI = () => {
         });
     });
   };
-  const registerUserData = (userData: UserData) => {
+  const registerUserData = (userData: IUserData) => {
     const data: UserDocumentData = {
       ...userData,
       createdAt: Date.now().toString(),
@@ -39,7 +39,7 @@ const useAuthAPI = () => {
   };
   const signout = () => {};
 
-  const getCurrentUser = async (): Promise<UserData | null> => {
+  const getCurrentUser = async (): Promise<IUserData | null> => {
     const currentUser = authPlatform.getCurrentUser();
     if (!currentUser) return null;
     const res = await dbPlatform.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));

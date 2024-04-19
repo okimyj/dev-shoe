@@ -2,11 +2,9 @@ import {
   QueryConstraint,
   addDoc,
   collection,
-  getDoc,
   getDocs,
   getFirestore,
   query,
-  where,
 } from "firebase/firestore";
 import firebaseApp from "./firebaseApp";
 import { ICustomDocumentData } from "../types";
