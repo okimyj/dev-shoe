@@ -10,7 +10,7 @@ const RootRouter = () => {
     {
       path: "/",
       element: <App />,
-      errorElement: <App outlet={<Error />} />,
+      // errorElement: <App outlet={<Error />} />,
       children: [
         {
           index: true,

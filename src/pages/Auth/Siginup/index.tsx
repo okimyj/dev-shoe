@@ -1,42 +1,17 @@
-import useAuthAPI from "@/apis/auth";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo/Logo";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
 import InnerBody from "../../layout/body/inner/InnerBody";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { FieldData, IFormData, schema } from "./validation";
+import { FieldData } from "./validation";
 import ValidationField from "../../../components/form/ValidationField";
+import useAuthSignup from "./hooks";
 
 const SignupPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormData>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-  });
-
-  const { signup } = useAuthAPI();
-  const navigate = useNavigate();
-
-  const onSubmit: SubmitHandler<IFormData> = (data: IFormData) => {
-    signup({ ...data, isSeller: data.isSeller ?? false })
-      .then((res) => {
-        navigate("/");
-      })
-      .catch((res) => {
-        if (res.error.code && res.error.code === "auth/invalid-email") {
-        }
-        console.log(res.error);
-      });
-  };
+  const { register, errors, handleSubmit, handleSignup } = useAuthSignup();
 
   return (
     <InnerBody className="flex w-full items-center border">
       <Logo size="text-logo-l" />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleSignup)}>
         <div className="m-10pxr flex-col space-y-10pxr">
           {FieldData.map((field) => (
             <ValidationField

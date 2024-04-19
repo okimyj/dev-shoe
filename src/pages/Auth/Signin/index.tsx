@@ -23,7 +23,6 @@ const SigninPage = () => {
         if (res.error.code && res.error.code === "auth/invalid-email") {
           navigate("/signup");
         }
-        console.log("res.error.code : ", res.error.code);
         console.log(res.error);
       });
   };
