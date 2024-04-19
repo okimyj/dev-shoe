@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo/Logo";
 import InnerBody from "../../layout/body/inner/InnerBody";
 import { FieldData } from "./validation";
-import ValidationField from "../../../components/form/ValidationField";
+import InputField from "../../../components/form/InputField";
 import useAuthSignup from "./hooks";
 
 const SignupPage = () => {
@@ -14,7 +14,8 @@ const SignupPage = () => {
       <form onSubmit={handleSubmit(handleSignup)}>
         <div className="m-10pxr flex-col space-y-10pxr">
           {FieldData.map((field) => (
-            <ValidationField
+            <InputField
+              key={field.validationKey}
               title={field.title}
               placeHolder={field.placeHolder}
               register={register(field.validationKey)}

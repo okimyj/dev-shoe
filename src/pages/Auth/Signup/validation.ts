@@ -7,12 +7,6 @@ export interface IFormData {
   isSeller?: boolean;
 }
 
-interface IFieldData {
-  title: string;
-  placeHolder: string;
-  validationKey: keyof IFormData;
-  inputType: string;
-}
 export const schema = yup.object({
   email: yup.string().email("이메일 형식에 적합하지 않습니다.").required("이메일을 입력해주세요"),
   nickname: yup.string().required("닉네임을 입력해주세요."),
@@ -24,6 +18,13 @@ export const schema = yup.object({
     })
     .required(),
 });
+
+interface IFieldData {
+  title: string;
+  placeHolder: string;
+  validationKey: keyof IFormData;
+  inputType: string;
+}
 export const FieldData: IFieldData[] = [
   { title: "E-mail", placeHolder: "Enter Email...", validationKey: "email", inputType: "text" },
   {

@@ -1,47 +1,37 @@
-import useAuthAPI from "@/apis/auth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Logo from "@/components/logo/Logo";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import InnerBody from "../../layout/body/inner/InnerBody";
-type Inputs = {
-  email: string;
-  password: string;
-};
+import InputField from "@/components/form/InputField";
+import useAuthSignin from "./hooks";
+// import useAuthAPI from "@/apis/auth";
+// import { Input } from "@/components/ui/input";
+// import { useNavigate } from "react-router-dom";
+// import { SubmitHandler, useForm } from "react-hook-form";
+
 const SigninPage = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
-  const { signin } = useAuthAPI();
-  const navigate = useNavigate();
-
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    signin(data.email, data.password)
-      .then((res) => {
-        navigate("/");
-      })
-      .catch((res) => {
-        if (res.error.code && res.error.code === "auth/invalid-email") {
-          navigate("/signup");
-        }
-        console.log(res.error);
-      });
-  };
-
+  const { register, handleSubmit, handleSignin } = useAuthSignin();
   return (
     <InnerBody className="flex w-full items-center border">
       <Logo size="text-logo-l" />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input className="mb-10pxr w-200pxr" placeholder="Enter Email" {...register("email")} />
+      <form onSubmit={handleSubmit(handleSignin)}>
+        <div className="m-10pxr flex-col space-y-10pxr">
+          <InputField
+            title="E-mail"
+            placeHolder="Enter Email..."
+            inputType="text"
+            register={register("email")}
+          />
+          <InputField
+            title="Password"
+            placeHolder="Enter Password..."
+            inputType="password"
+            register={register("password")}
+          />
 
-        <Input
-          className="mb-10pxr w-200pxr"
-          placeholder="Enter Password"
-          type="password"
-          {...register("password")}
-        />
-        <Button type="submit" className="w-200pxr font-logo">
-          Login To Email
-        </Button>
+          <Button type="submit" className="w-200pxr font-logo">
+            Login To Email
+          </Button>
+        </div>
       </form>
 
       {/* <Input className="w-48" /> */}
