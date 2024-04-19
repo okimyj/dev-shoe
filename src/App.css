@@ -41,3 +41,20 @@
 .read-the-docs {
   color: #888;
 }
+
+h1{
+  font-size: 1.87rem;
+  font-weight: bold;
+}
+h2{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+h3{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+h4{
+  font-size: 1rem;
+  font-weight: bold;
+}
