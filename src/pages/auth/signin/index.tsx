@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import Logo from "@/components/logo/Logo";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import InnerBody from "./layout/body/inner/InnerBody";
+import InnerBody from "../../layout/body/inner/InnerBody";
 type Inputs = {
   email: string;
   password: string;
@@ -30,7 +30,7 @@ const SigninPage = () => {
 
   return (
     <InnerBody className="flex w-full items-center border">
-      <Logo size="l" />
+      <Logo size="text-logo-l" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input className="mb-10pxr w-200pxr" placeholder="Enter Email" {...register("email")} />
 

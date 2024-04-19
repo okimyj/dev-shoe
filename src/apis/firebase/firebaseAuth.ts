@@ -29,5 +29,9 @@ export default class FirebaseAuth {
     });
   }
 
+  getCurrentUser() {
+    return getAuth(firebaseApp).currentUser;
+  }
+
   addData() {}
 }

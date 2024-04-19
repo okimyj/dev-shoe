@@ -1,8 +1,9 @@
 import App from "@/App";
-import SigninPage from "@/pages/Signin";
-import SignupPage from "@/pages/Signup";
-import MainPage from "@/pages/MainPage";
+import SigninPage from "@/pages/auth/signin";
+import SignupPage from "@/pages/auth/signup";
+import MainPage from "@/pages/main";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ProductRouter } from "./product";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,25 +22,10 @@ const router = createBrowserRouter([
         element: <SignupPage />,
       },
       {
-        path: "product",
-        element: <div>상품 리스트</div>,
-      },
-      {
-        path: "product/:id",
-        element: <div>상품 상세</div>,
-      },
-      {
-        path: "product/register",
-        element: <div>상품 등록</div>,
-      },
-      {
-        path: "product/update",
-        element: <div>상품 수정</div>,
-      },
-      {
         path: "cart",
         element: <div>장바구니</div>,
       },
+      ...ProductRouter,
     ],
   },
 ]);

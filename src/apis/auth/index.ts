@@ -1,26 +1,19 @@
-import { rejects } from "assert";
+import { where } from "firebase/firestore";
 import FirebaseAuth from "../firebase/firebaseAuth";
 import FirebaseDB from "../firebase/firebaseDB";
 import { UserData, UserDocumentData } from "./types";
+import { DB_TYPE } from "../firebase/constants";
 const useAuthAPI = () => {
   const authPlatform = new FirebaseAuth();
   const dbPlatform = new FirebaseDB();
 
-  const signup = ({ email, password, isSeller, nickname }: UserData): Promise<UserDocumentData> => {
+  const signup = (userData: UserData): Promise<UserDocumentData> => {
     return new Promise((resolve, reject) => {
       authPlatform
-        .signup(email, password)
+        .signup(userData.email, userData.password)
         .then(() => {
-          const data: UserDocumentData = {
-            email,
-            password,
-            isSeller,
-            nickname,
-            createdAt: Date.now().toString(),
-            updatedAt: Date.now().toString(),
-          };
-          dbPlatform.addData("users", data).then(() => {
-            resolve(data);
+          registerUserData(userData).then(() => {
+            resolve(userData);
           });
         })
         .catch((error) => {
@@ -28,6 +21,15 @@ const useAuthAPI = () => {
           reject({ ...error });
         });
     });
+  };
+  const registerUserData = (userData: UserData) => {
+    const data: UserDocumentData = {
+      ...userData,
+      createdAt: Date.now().toString(),
+      updatedAt: Date.now().toString(),
+    };
+    console.log("registerUserData : ", data);
+    return dbPlatform.addData(DB_TYPE.USERS, data);
   };
 
   const signin = (email: string, password: string) => {
@@ -37,6 +39,18 @@ const useAuthAPI = () => {
   };
   const signout = () => {};
 
-  return { signup, signin, signout };
+  const getCurrentUser = async (): Promise<UserData | null> => {
+    const currentUser = authPlatform.getCurrentUser();
+    if (!currentUser) return null;
+    const res = await dbPlatform.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));
+    res.forEach((doc) => {
+      console.log(doc.data());
+      return doc.data();
+    });
+
+    return null;
+  };
+
+  return { signup, signin, signout, getCurrentUser };
 };
 export default useAuthAPI;

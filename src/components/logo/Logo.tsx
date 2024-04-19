@@ -1,8 +1,8 @@
 import { SITE_NAME } from "@/common/constants";
 interface ILogoProps {
-  size: "s" | "l";
+  size: "text-logo-s" | "text-logo-l";
 }
-const Logo = ({ size = "s" }: ILogoProps) => {
-  return <div className={["font-logo", `text-logo-${size}`].join(" ")}>{SITE_NAME}</div>;
+const Logo = ({ size = "text-logo-s" }: ILogoProps) => {
+  return <div className={["font-logo", size].join(" ")}>{SITE_NAME}</div>;
 };
 export default Logo;

@@ -1,3 +1,6 @@
+import useAuthAPI from "@/apis/auth";
+import useAuth from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface INavLinkProps {
@@ -8,6 +11,18 @@ const NavLink = ({ name, path }: INavLinkProps) => {
   return <Link to={path}>{name}</Link>;
 };
 const Navigation = () => {
+  const { getCurrentUser } = useAuthAPI();
+  const [isLogined, setIsLogined] = useState<boolean>(false);
+  const [isSaller, setIsSeller] = useState<boolean>(false);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  const fetchUserData = async () => {
+    const user = await getCurrentUser();
+    console.log(user);
+    setIsSeller(user?.isSeller ?? false);
+    setIsLogined(user != null);
+  };
   // todo : user type 에 따라 분기처리.
   const USER_NAVIGATION = [
     {

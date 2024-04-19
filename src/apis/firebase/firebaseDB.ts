@@ -1,4 +1,13 @@
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import {
+  QueryConstraint,
+  addDoc,
+  collection,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import firebaseApp from "./firebaseApp";
 import { ICustomDocumentData } from "../types";
 
@@ -9,5 +18,9 @@ export default class FirebaseDB {
   }
   addData(dbName: string, data: ICustomDocumentData) {
     return addDoc(collection(this.db, dbName), data);
+  }
+  getData(dbName: string, ...queryConstraints: QueryConstraint[]) {
+    const q = query(collection(this.db, dbName), ...queryConstraints);
+    return getDocs(q);
   }
 }
