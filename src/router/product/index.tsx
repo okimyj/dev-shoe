@@ -1,5 +1,6 @@
 import ProductCreatePage from "@/pages/Products/Create";
 import { Outlet, RouteObject } from "react-router-dom";
+import { withPrivateRoute } from "../withAuthorityRoute";
 
 export const ProductRouter: RouteObject[] = [
   {
@@ -8,7 +9,7 @@ export const ProductRouter: RouteObject[] = [
   },
   {
     path: "product/create",
-    element: <ProductCreatePage />,
+    element: withPrivateRoute(<ProductCreatePage />),
   },
   {
     path: "product/:id",

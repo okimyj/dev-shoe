@@ -39,16 +39,15 @@ const useAuthAPI = () => {
   };
   const signout = () => {};
 
-  const getCurrentUser = async (): Promise<IUserData | null> => {
+  const getCurrentUser = async (): Promise<UserDocumentData | null> => {
     const currentUser = authPlatform.getCurrentUser();
     if (!currentUser) return null;
     const res = await dbPlatform.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));
+    let userData = null;
     res.forEach((doc) => {
-      console.log(doc.data());
-      return doc.data();
+      userData = doc.data();
     });
-
-    return null;
+    return userData;
   };
 
   return { signup, signin, signout, getCurrentUser };
