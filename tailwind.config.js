@@ -82,7 +82,7 @@ module.exports = {
         defaultEn: ["Bakbak One"],
       },
       spacing: {
-        ...Array(5, 10, 20, 50, 100, 150, 200, 750).reduce((acc, px) => {
+        ...Array(5, 10, 20, 25, 50, 100, 150, 200, 450, 750).reduce((acc, px) => {
           acc[`${px}pxr`] = pxToRem(px);
           return acc;
         }, {}),

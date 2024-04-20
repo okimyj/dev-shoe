@@ -16,6 +16,7 @@ export interface ISubModelData extends ICustomDocumentData {
 }
 export interface IProductData extends ICustomDocumentData {
   modelId: string; // model 먼저 addDoc 하고...
+  subModelId: string;
   price: number;
   quantity: number;
   color: string;

@@ -19,20 +19,16 @@ const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => 
         <AccordionTrigger>
           <div className="flex w-full items-center justify-between">
             <div className="flex h-50pxr items-center space-x-10pxr">
-              {isNew || isEdit ? (
-                <Input className="w-150pxr" value={name} />
-              ) : (
-                <Label className="w-150pxr">{name}</Label>
-              )}
+              <Input value={name} disabled={!isEdit} />
               <img src={image} className="h-50pxr w-50pxr border" alt="대표 이미지" />
             </div>
-            <div className="mr-10pxr flex space-x-10pxr">
+            <div className="mr-10pxr flex space-x-5pxr">
               {isNew ? <SquarePlusIcon /> : isEdit ? <SquareCheckBigIcon /> : <SquareMinusIcon />}
               {!(isEdit || isNew) && <SquarePenIcon />}
             </div>
           </div>
         </AccordionTrigger>
-        <AccordionContent>
+        <AccordionContent className="px-25pxr py-10pxr">
           <SizeOptionCell
             size="230"
             price="189000"
@@ -46,15 +42,15 @@ const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => 
             price="189000"
             quantity={13}
             isNew={false}
-            isEdit={true}
+            isEdit={false}
             action={() => {}}
           />
           <SizeOptionCell
             size="230"
             price="189000"
             quantity={13}
-            isNew={false}
-            isEdit={true}
+            isNew={true}
+            isEdit={false}
             action={() => {}}
           />
         </AccordionContent>
