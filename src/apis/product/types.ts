@@ -1,4 +1,4 @@
-import { ICustomDocumentData } from "../types";
+import { ICustomDocumentData } from "../firebase/types";
 
 export interface IModelData extends ICustomDocumentData {
   sellerId: string;
