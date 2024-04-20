@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
 } from "firebase/auth";
 import firebaseApp from "./firebaseApp";
 
@@ -19,7 +20,7 @@ const useFirebaseAuth = (handleAuthStateChanged: (data: User | null) => void) =>
     });
   }, []);
 
-  const signup = async (email: string, password: string): Promise<FirebaseSigninResponse> => {
+  const signUp = async (email: string, password: string): Promise<FirebaseSigninResponse> => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       return { data: res };
@@ -27,34 +28,23 @@ const useFirebaseAuth = (handleAuthStateChanged: (data: User | null) => void) =>
       if (e instanceof FirebaseError) return { error: { code: e.code, message: e.message } };
       else return { error: { code: "", message: "회원가입 실패" } };
     }
-
-    return new Promise((resolve, reject) => {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((credential) => {
-          const user = credential;
-          console.log(user);
-          resolve({ data: credential });
-        })
-        .catch((error) => {
-          reject({ error: error });
-        });
-    });
   };
-  const signin = (email: string, password: string): Promise<FirebaseSigninResponse> => {
-    return new Promise((resolve, reject) => {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((credential) => {
-          resolve({ data: credential });
-        })
-        .catch((error) => {
-          reject({ error: error });
-        });
-    });
+  const signIn = async (email: string, password: string): Promise<FirebaseSigninResponse> => {
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      return { data: res };
+    } catch (e) {
+      if (e instanceof FirebaseError) return { error: { code: e.code, message: e.message } };
+      else return { error: { code: "", message: "로그인 실패" } };
+    }
+  };
+  const signOut = async () => {
+    firebaseSignOut(auth);
   };
 
   const getCurrentUser = () => {
     return getAuth(firebaseApp).currentUser;
   };
-  return { signin, signup, getCurrentUser };
+  return { signIn, signUp, signOut, getCurrentUser };
 };
 export default useFirebaseAuth;

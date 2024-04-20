@@ -14,12 +14,12 @@ const useAuthAPI = () => {
       setUserData(data);
     }
   };
-  const firebaseAuth = useFirebaseAuth(onAuthStateChanged);
 
+  const firebaseAuth = useFirebaseAuth(onAuthStateChanged);
   const dbPlatform = new FirebaseDB();
 
-  const signup = async (userData: UserData): Promise<SigninResponse> => {
-    const signupRes = await firebaseAuth.signup(userData.email, userData.password);
+  const signUp = async (userData: UserData): Promise<SigninResponse> => {
+    const signupRes = await firebaseAuth.signUp(userData.email, userData.password);
     if (signupRes.error) {
       return { error: signupRes.error };
     }
@@ -35,12 +35,14 @@ const useAuthAPI = () => {
     return dbPlatform.addData(DB_TYPE.USERS, data);
   };
 
-  const signin = (email: string, password: string) => {
+  const signIn = (email: string, password: string) => {
     // fetch, mutation 따로 만들어야 될 듯.
 
-    return firebaseAuth.signin(email, password);
+    return firebaseAuth.signIn(email, password);
   };
-  const signout = () => {};
+  const signOut = () => {
+    firebaseAuth.signOut();
+  };
 
   const getCurrentUser = async (): Promise<UserDocumentData | null> => {
     const currentUser = firebaseAuth.getCurrentUser();
@@ -53,6 +55,6 @@ const useAuthAPI = () => {
     return userData;
   };
 
-  return { signup, signin, signout, getCurrentUser };
+  return { signUp, signIn, signOut };
 };
 export default useAuthAPI;
