@@ -1,4 +1,4 @@
-import OptionListCell from "./OptionListCell";
+import OptionListCell from "../OptionListCell";
 
 interface IOptionListProps {
   name: string;

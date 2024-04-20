@@ -8,6 +8,7 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
   const navigate = useNavigate();
   const addOption = (name: string, images: File[]) => {};
   const removeOption = (id: string) => {};
+  const handleAddOpiton = () => {};
   const handleSubmit = () => {};
   const handleCancel = () => {
     openAlert({
@@ -19,6 +20,6 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
       },
     });
   };
-  return { handleCancel, handleSubmit };
+  return { handleAddOpiton, handleCancel, handleSubmit };
 };
 export default useProductCreate;

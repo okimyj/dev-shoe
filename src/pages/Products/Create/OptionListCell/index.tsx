@@ -2,7 +2,7 @@ import { Accordion } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import SizeOptionCell from "./SizeOptionCell";
+import SizeOptionCell from "../SizeOptionCell";
 import { SquareCheckBigIcon, SquareMinusIcon, SquarePenIcon, SquarePlusIcon } from "lucide-react";
 
 interface OptionListCellProps {
@@ -30,7 +30,7 @@ const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => 
         </AccordionTrigger>
         <AccordionContent className="px-25pxr py-10pxr">
           <SizeOptionCell
-            size="230"
+            optName="230"
             price="189000"
             quantity={13}
             isNew={false}
@@ -38,7 +38,7 @@ const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => 
             action={() => {}}
           />
           <SizeOptionCell
-            size="230"
+            optName="230"
             price="189000"
             quantity={13}
             isNew={false}
@@ -46,7 +46,7 @@ const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => 
             action={() => {}}
           />
           <SizeOptionCell
-            size="230"
+            optName="230"
             price="189000"
             quantity={13}
             isNew={true}
