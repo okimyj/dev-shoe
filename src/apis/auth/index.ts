@@ -1,22 +1,24 @@
 import { where } from "firebase/firestore";
-import FirebaseDB from "../firebase/firebaseDB";
-import { UserData, SigninResponse, UserDocumentData, AuthData } from "./types";
+
+import { UserData, SigninResponse, UserDocumentData } from "./types";
 import { DB_TYPE } from "../firebase/constants";
-import useFirebaseAuth from "../firebase/firebaseAuth";
 import { useAuthStore } from "@/common/stores/useAuthStore";
 import { User } from "@firebase/auth";
+import useFirebaseAuth from "../firebase/usefirebaseAuth";
+import useFirebaseDB from "../firebase/usefirebaseDB";
 const useAuthAPI = () => {
   const { userData, setData: setUserData } = useAuthStore();
   const onAuthStateChanged = async (data: User | null) => {
-    console.log("onAuthStateChanged - data : ", data);
     if (userData?.email !== data?.email) {
       const data = await getCurrentUser();
       setUserData(data);
+    } else {
+      setUserData(null);
     }
   };
 
   const firebaseAuth = useFirebaseAuth(onAuthStateChanged);
-  const dbPlatform = new FirebaseDB();
+  const firebaseDB = useFirebaseDB();
 
   const signUp = async (userData: UserData): Promise<SigninResponse> => {
     const signupRes = await firebaseAuth.signUp(userData.email, userData.password);
@@ -32,7 +34,7 @@ const useAuthAPI = () => {
       createdAt: Date.now().toString(),
       updatedAt: Date.now().toString(),
     };
-    return dbPlatform.addData(DB_TYPE.USERS, data);
+    return firebaseDB.addData(DB_TYPE.USERS, data);
   };
 
   const signIn = (email: string, password: string) => {
@@ -47,7 +49,7 @@ const useAuthAPI = () => {
   const getCurrentUser = async (): Promise<UserDocumentData | null> => {
     const currentUser = firebaseAuth.getCurrentUser();
     if (!currentUser) return null;
-    const res = await dbPlatform.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));
+    const res = await firebaseDB.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));
     let userData = null;
     res.forEach((doc) => {
       userData = doc.data();

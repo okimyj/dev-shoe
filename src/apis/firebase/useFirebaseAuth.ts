@@ -6,7 +6,6 @@ import {
   signOut as firebaseSignOut,
 } from "firebase/auth";
 import firebaseApp from "./firebaseApp";
-
 import { FirebaseSigninResponse } from "./types";
 import { FirebaseError } from "@firebase/util";
 import { useEffect } from "react";
@@ -25,7 +24,7 @@ const useFirebaseAuth = (handleAuthStateChanged: (data: User | null) => void) =>
       const res = await createUserWithEmailAndPassword(auth, email, password);
       return { data: res };
     } catch (e) {
-      if (e instanceof FirebaseError) return { error: { code: e.code, message: e.message } };
+      if (e instanceof FirebaseError) return { error: e };
       else return { error: { code: "", message: "회원가입 실패" } };
     }
   };
@@ -34,7 +33,7 @@ const useFirebaseAuth = (handleAuthStateChanged: (data: User | null) => void) =>
       const res = await signInWithEmailAndPassword(auth, email, password);
       return { data: res };
     } catch (e) {
-      if (e instanceof FirebaseError) return { error: { code: e.code, message: e.message } };
+      if (e instanceof FirebaseError) return { error: e };
       else return { error: { code: "", message: "로그인 실패" } };
     }
   };
