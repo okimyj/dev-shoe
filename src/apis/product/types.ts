@@ -9,6 +9,11 @@ export interface IModelData extends ICustomDocumentData {
   updatedAt: string;
   image: string;
 }
+export interface ISubModelData extends ICustomDocumentData {
+  modelId: string;
+  name: string;
+  description: string;
+}
 export interface IProductData extends ICustomDocumentData {
   modelId: string; // model 먼저 addDoc 하고...
   price: number;

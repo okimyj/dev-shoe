@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { Label } from "../ui/label";
 
 interface IInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -18,8 +19,9 @@ const InputField = ({
   ...rest
 }: IInputFieldProps) => {
   return (
-    <div className="grid grid-cols-[minmax(100px,auto)_auto] items-center gap-x-10pxr gap-y-5pxr">
+    <div className="grid grid-cols-[100px_auto] items-center gap-x-10pxr gap-y-5pxr">
       <h3 className="text-right">{title}</h3>
+      {/* <Label className="border text-right">{title}</Label> */}
       <Input
         className="w-200pxr"
         placeholder={placeHolder}

@@ -4,8 +4,9 @@ import { UserData, SigninResponse, UserDocumentData } from "./types";
 import { DB_TYPE } from "../firebase/constants";
 import { useAuthStore } from "@/common/stores/useAuthStore";
 import { User } from "@firebase/auth";
-import useFirebaseAuth from "../firebase/usefirebaseAuth";
-import useFirebaseDB from "../firebase/usefirebaseDB";
+import useFirebaseAuth from "../firebase/useFirebaseAuth";
+import useFirebaseDB from "../firebase/useFirebaseDB";
+
 const useAuthAPI = () => {
   const { userData, setData: setUserData } = useAuthStore();
   const onAuthStateChanged = async (data: User | null) => {
