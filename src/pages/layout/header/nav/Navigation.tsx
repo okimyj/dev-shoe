@@ -14,15 +14,11 @@ const Navigation = () => {
   const { getCurrentUser } = useAuthAPI();
   const [isLogined, setIsLogined] = useState<boolean>(false);
   const [isSaller, setIsSeller] = useState<boolean>(false);
+  const { userInfo } = useAuth();
   useEffect(() => {
-    fetchUserData();
+    setIsSeller(userInfo?.isSeller ?? false);
   }, []);
-  const fetchUserData = async () => {
-    const user = await getCurrentUser();
-    console.log(user);
-    setIsSeller(user?.isSeller ?? false);
-    setIsLogined(user != null);
-  };
+
   // todo : user type 에 따라 분기처리.
   const USER_NAVIGATION = [
     {

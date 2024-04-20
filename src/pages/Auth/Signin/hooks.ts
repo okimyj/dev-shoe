@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import useAuthAPI from "@/apis/auth";
 import { useNavigate } from "react-router-dom";
 import { useAlertPopupStore } from "@/common/stores/useAlertPopupStore";
+import { useLoginToLocation } from "@/common/stores/useLoginToLocation";
 type Inputs = {
   email: string;
   password: string;
@@ -10,11 +11,12 @@ const useAuthSignin = () => {
   const { register, handleSubmit } = useForm<Inputs>();
   const { signin } = useAuthAPI();
   const navigate = useNavigate();
+  const { path: loginToPath } = useLoginToLocation();
   const { open: openAlert } = useAlertPopupStore();
   const handleSignin = (data: Inputs) => {
     signin(data.email, data.password)
-      .then((res) => {
-        navigate("/");
+      .then((_) => {
+        navigate(loginToPath || "/");
       })
       .catch((res) => {
         if (res.error.code && res.error.code === "auth/invalid-email") {
