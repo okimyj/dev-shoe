@@ -3,16 +3,22 @@ import useAuthAPI from "@/apis/auth";
 import { useNavigate } from "react-router-dom";
 import { useAlertPopupStore } from "@/common/stores/useAlertPopupStore";
 import { useLoginToLocation } from "@/common/stores/useLoginToLocation";
+import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
 type Inputs = {
   email: string;
   password: string;
 };
 const useAuthSignin = () => {
+  const { userData } = useAuth();
   const { register, handleSubmit } = useForm<Inputs>();
   const { signin } = useAuthAPI();
   const navigate = useNavigate();
   const { path: loginToPath } = useLoginToLocation();
   const { open: openAlert } = useAlertPopupStore();
+  useEffect(() => {
+    if (userData) navigate(loginToPath || "/");
+  }, [userData]);
   const handleSignin = (data: Inputs) => {
     signin(data.email, data.password)
       .then((_) => {

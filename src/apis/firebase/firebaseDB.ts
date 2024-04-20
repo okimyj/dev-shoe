@@ -7,7 +7,7 @@ import {
   query,
 } from "firebase/firestore";
 import firebaseApp from "./firebaseApp";
-import { ICustomDocumentData } from "../types";
+import { ICustomDocumentData } from "./types";
 
 export default class FirebaseDB {
   private db;

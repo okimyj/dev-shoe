@@ -6,17 +6,17 @@ import { useLocation, useNavigate } from "react-router";
 export const withPrivateRoute = (InnerComponent: React.ReactNode): React.ReactNode => {
   const WrappedComponent = () => {
     const navigate = useNavigate();
-    const { userInfo } = useAuth();
+    const { userData } = useAuth();
     const { pathname: curPathName } = useLocation();
     const { setPath } = useLoginToLocation();
 
     useEffect(() => {
-      if (userInfo === null) {
+      if (userData === null) {
         // 로그인 되어있지 않은 상태 로그인 페이지로 이동.
         setPath(curPathName);
-        if (!userInfo) navigate("/signin");
+        if (!userData) navigate("/signin");
       }
-    }, [userInfo]);
+    }, [userData]);
     return InnerComponent;
   };
   return <WrappedComponent />;

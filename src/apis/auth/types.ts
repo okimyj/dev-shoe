@@ -1,18 +1,23 @@
 import { UserCredential } from "@firebase/auth";
-import { CommonResponse, ICustomDocumentData } from "../types";
-export type AuthResponse = CommonResponse & {
-  data: UserCredential;
+import { CommonResponse } from "../types";
+import { ICustomDocumentData } from "../firebase/types";
+export type AuthData = {
+  email?: string;
+  uid?: string;
 };
-
-export interface IUserData {
+export type UserData = {
   email: string;
   password: string;
   isSeller: boolean;
   nickname: string;
-}
+};
+export type SigninResponse = CommonResponse & {
+  data?: UserDocumentData;
+};
+export type SignupRequest = UserDocumentData;
 
 export type UserDocumentData = ICustomDocumentData &
-  IUserData & {
+  UserData & {
     createdAt?: string;
     updatedAt?: string;
   };
