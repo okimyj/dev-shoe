@@ -1,27 +1,24 @@
 import { create } from "zustand";
-interface IState {
-  isOpen: boolean;
+interface StateData {
   title: string;
-  contents: string;
-  confirm: string;
-  cancel: string;
+  contents?: string;
+  confirm?: string;
+  cancel?: string;
+  hasCancel?: boolean;
   onClose?: (confirm: boolean) => void;
-  open: (
-    title: string,
-    contents: string,
-    onClose?: (confirm: boolean) => void,
-    confirm?: string,
-    cancel?: string,
-  ) => void;
+}
+interface IState extends StateData {
+  isOpen: boolean;
+  open: (data: StateData) => void;
   close: () => void;
 }
 export const useAlertPopupStore = create<IState>((set) => ({
   isOpen: false,
   title: "",
   contents: "",
+  hasCancel: false,
   confirm: "확인",
   cancel: "취소",
-  open: (title: string, contents: string, onClose?: (confirm: boolean) => void) =>
-    set({ isOpen: true, title, contents, onClose }),
+  open: (data: StateData) => set({ isOpen: true, ...data }),
   close: () => set({ isOpen: false }),
 }));

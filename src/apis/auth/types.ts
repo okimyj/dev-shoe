@@ -1,4 +1,3 @@
-import { UserCredential } from "@firebase/auth";
 import { CommonResponse } from "../types";
 import { ICustomDocumentData } from "../firebase/types";
 export type AuthData = {
@@ -14,7 +13,6 @@ export type UserData = {
 export type SigninResponse = CommonResponse & {
   data?: UserDocumentData;
 };
-export type SignupRequest = UserDocumentData;
 
 export type UserDocumentData = ICustomDocumentData &
   UserData & {
