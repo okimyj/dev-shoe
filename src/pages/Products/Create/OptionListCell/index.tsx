@@ -4,55 +4,75 @@ import { Label } from "@/components/ui/label";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import SizeOptionCell from "../SizeOptionCell";
 import { SquareCheckBigIcon, SquareMinusIcon, SquarePenIcon, SquarePlusIcon } from "lucide-react";
+import useOptionListCell from "./hooks";
+import { ProductData, ProductSubModelData } from "@/apis/product/types";
 
-interface OptionListCellProps {
-  name: string;
-  image: string;
-
-  isNew: boolean;
+interface OptionListCellProps extends ProductSubModelData {
   isEdit: boolean;
+  handleConfirm: (id: string) => void;
+  handleDelete: (id: string) => void;
 }
-const OptionListCell = ({ name, image, isNew, isEdit }: OptionListCellProps) => {
+const OptionListCell = ({
+  id,
+  name,
+  images,
+  products: subOptions,
+  isEdit,
+  handleConfirm,
+  handleDelete,
+}: OptionListCellProps) => {
+  const { handleChangeName } = useOptionListCell();
+  const isNew = !name;
+  const ConfirmButton = () => {
+    return (
+      <SquareCheckBigIcon
+        onClick={() => {
+          handleConfirm(id);
+        }}
+      />
+    );
+  };
+  const DeleteButton = () => {
+    return (
+      <SquareMinusIcon
+        onClick={() => {
+          handleDelete(id);
+        }}
+      />
+    );
+  };
+
   return (
     <Accordion className="w-full" type="single" collapsible>
       <AccordionItem value="item-1">
         <AccordionTrigger>
           <div className="flex w-full items-center justify-between">
             <div className="flex h-50pxr items-center space-x-10pxr">
-              <Input value={name} disabled={!isEdit} />
-              <img src={image} className="h-50pxr w-50pxr border" alt="대표 이미지" />
+              <Input value={name} disabled={!(isNew || isEdit)} onChange={handleChangeName} />
+              {/* todo : swiper slide */}
+              <img
+                src={images && images.length > 0 ? images[0] : ""}
+                className="h-50pxr w-50pxr border"
+                alt="대표 이미지"
+              />
             </div>
             <div className="mr-10pxr flex space-x-5pxr">
-              {isNew ? <SquarePlusIcon /> : isEdit ? <SquareCheckBigIcon /> : <SquareMinusIcon />}
+              {isNew || isEdit ? <ConfirmButton /> : <DeleteButton />}
               {!(isEdit || isNew) && <SquarePenIcon />}
             </div>
           </div>
         </AccordionTrigger>
         <AccordionContent className="px-25pxr py-10pxr">
-          <SizeOptionCell
-            optName="230"
-            price="189000"
-            quantity={13}
-            isNew={false}
-            isEdit={true}
-            action={() => {}}
-          />
-          <SizeOptionCell
-            optName="230"
-            price="189000"
-            quantity={13}
-            isNew={false}
-            isEdit={false}
-            action={() => {}}
-          />
-          <SizeOptionCell
-            optName="230"
-            price="189000"
-            quantity={13}
-            isNew={true}
-            isEdit={false}
-            action={() => {}}
-          />
+          {subOptions.map((el) => (
+            <SizeOptionCell
+              optName="230"
+              price={189000}
+              quantity={13}
+              id={"1"}
+              isEdit={true}
+              action={() => {}}
+            />
+          ))}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

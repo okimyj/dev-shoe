@@ -18,7 +18,11 @@ const useSizeOptionCell = ({
   const handleChangePrice = (e: ChangeEvent<HTMLInputElement>) => {
     setPrice(Number(e.currentTarget.value));
   };
-  return { optName, price, quantity, handleChangeOptName, handleChangePrice };
+  const handleChangeQuantity = (value: number) => {
+    setQuantity(value);
+  };
+
+  return { optName, price, quantity, handleChangeOptName, handleChangePrice, handleChangeQuantity };
 };
 
 export default useSizeOptionCell;

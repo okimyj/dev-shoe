@@ -2,12 +2,15 @@ import { UserCredential } from "@firebase/auth";
 import { CommonResponse } from "../types";
 import { DocumentData } from "@firebase/firestore";
 
-export type FirebaseSigninResponse = CommonResponse & {
+export interface FirebaseSigninResponse extends CommonResponse {
   data?: UserCredential;
-};
-export type AddDocResponse = CommonResponse & {
-  data: DocumentData;
-};
+}
+export interface AddDocResponse extends CommonResponse {
+  data?: DocumentData;
+}
+export interface UploadFileResponse extends CommonResponse {
+  data?: { downloadURL: string };
+}
 export type ICustomDocumentData = DocumentData & {
   id?: string;
 };

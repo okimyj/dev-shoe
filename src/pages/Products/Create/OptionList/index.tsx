@@ -1,14 +1,15 @@
+import { ProductSubModelData } from "@/apis/product/types";
 import OptionListCell from "../OptionListCell";
 
-interface IOptionListProps {
-  name: string;
+interface OptionListProps {
+  list: ProductSubModelData[];
 }
-const OptionList = () => {
+const OptionList = ({ list }: OptionListProps) => {
   return (
     <div>
-      <OptionListCell name="서밋화이트" image="" isNew={false} isEdit={false} />
-      <OptionListCell name="서밋화이트" image="" isNew={false} isEdit={true} />
-      <OptionListCell name="서밋화이트" image="" isNew={true} isEdit={false} />
+      {list.map((el) => (
+        <OptionListCell key={el.id} {...el} isEdit={false} />
+      ))}
     </div>
   );
 };

@@ -1,19 +1,31 @@
 import { SquareMinus, SquarePlus } from "lucide-react";
-import { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   initValue: number;
+  min?: number;
+  max?: number;
+  onChangeValue?: (value: number) => void;
 }
-const InputNumber = ({ initValue, ...rest }: InputNumberProps) => {
+const InputNumber = ({
+  initValue,
+  min = 0,
+  max = Number.MAX_SAFE_INTEGER,
+  onChangeValue,
+  ...rest
+}: InputNumberProps) => {
   const [value, setValue] = useState<number>(initValue);
   const onClickPlus = () => {
-    setValue((prev) => prev + 1);
+    setValue((prev) => Math.min(max, prev + 1));
   };
   const onClickMinus = () => {
-    setValue((prev) => prev + 2);
+    setValue((prev) => Math.max(min, prev + 2));
   };
   const onChangeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(Number(e.currentTarget.value));
   };
+  useEffect(() => {
+    onChangeValue?.(value);
+  }, [value]);
   return (
     <div className="flex w-fit">
       <button onClick={onClickPlus}>
