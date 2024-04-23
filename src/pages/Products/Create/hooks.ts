@@ -7,8 +7,14 @@ import uuid from "react-uuid";
 import useProductAPI from "@/apis/product";
 import useFirebaseStorage from "@/apis/firebase/useFirebaseStorage";
 import useAuth from "@/hooks/useAuth";
+import { useFieldArray, useForm } from "react-hook-form";
+import { MODEL_FORM_DEFAULT_VALUE, ModelFormValue, ProductFormValue } from "./Form/types";
 
 const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
+  const form = useForm<ModelFormValue>({
+    defaultValues: MODEL_FORM_DEFAULT_VALUE,
+  });
+
   console.log("useProductCreate : ", modelId, isEdit);
   const { open: openAlert } = useAlertPopupStore();
   const { addProduct } = useProductAPI();
@@ -18,13 +24,14 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
   const [category, setCategory] = useState<string>();
   const [options, setOptions] = useState<ProductSubModelData[]>([]);
   const [testFiles, setTestFiles] = useState<File[]>();
+
   const [imageUrl, setImageUrl] = useState<string>();
   // useEffect(() => {
   //   // TODO : request product Data.
   // }, []);
   const navigate = useNavigate();
 
-  const applyOption = useCallback(
+  const handleApplyOption = useCallback(
     (option: ProductSubModelData) => {
       const copy = [...options];
       const idx = copy.findIndex((el) => el.id === option.id);
@@ -35,7 +42,7 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
     },
     [options],
   );
-  const removeOption = useCallback((id: string) => {
+  const handleRemoveOption = useCallback((id: string) => {
     setOptions(options.filter((el) => el.id !== id));
   }, []);
   const handleChangeName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -44,20 +51,14 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
   const handleChangeCategory = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setCategory(e.currentTarget.value);
   }, []);
+
   const handleAddOption = useCallback(() => {
     // 임시로 id 부여. store에 add 할 때 바뀐다.
-    const option: ProductSubModelData = {
-      id: `temp_${uuid()}`,
-      images: [],
-      name: "",
-      products: [],
-    };
-
-    setOptions((prev) => [...prev, option]);
   }, []);
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files) setTestFiles([...e.currentTarget.files]);
   };
+
   const handleSubmit = useCallback(() => {
     console.log("handleSubmit - ");
     const products: ProductData[] = [
@@ -91,12 +92,15 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
     });
   }, []);
   return {
+    form,
     name,
     category,
     options,
     handleChangeName,
     handleChangeCategory,
     handleAddOption,
+    handleApplyOption,
+    handleRemoveOption,
     handleCancel,
     handleSubmit,
     onChangeFile,
