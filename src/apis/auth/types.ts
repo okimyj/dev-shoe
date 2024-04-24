@@ -5,6 +5,7 @@ export type AuthData = {
   uid?: string;
 };
 export type UserData = {
+  uid?: string;
   email: string;
   password: string;
   isSeller: boolean;

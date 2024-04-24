@@ -6,41 +6,11 @@ import {
   uploadString,
 } from "firebase/storage";
 import firebaseApp from "./firebaseApp";
-import { UploadFileResponse } from "./types";
+import { UploadDataURLData, UploadFileResponse } from "./types";
 import uuid from "react-uuid";
 import { FirebaseError } from "firebase/app";
 const useFirebaseStorage = () => {
   const storage = getStorage(firebaseApp);
-  const uploadDataURL = async (
-    data: string,
-    path: string,
-    name: string,
-  ): Promise<UploadFileResponse> => {
-    const storageRef = ref(storage, [path, name].join("/"));
-    try {
-      const res = await uploadString(storageRef, data, "data_url");
-      const downloadURL = await getDownloadURL(res.ref);
-      return { data: { fullPath: res.ref.fullPath, downloadURL } };
-    } catch (e) {
-      if (e instanceof FirebaseError) return { error: e };
-      else return { error: { code: "", message: "uploadBase64Image - 데이터 등록 실패" } };
-    }
-  };
-
-  const uploadDataURLs = async (
-    data: string[],
-    path: string,
-    name: string,
-  ): Promise<UploadFileResponse[]> => {
-    try {
-      const requests = data.map(async (d, index) => {
-        return await uploadDataURL(d, path, `${name}/${index}`);
-      });
-      return Promise.all(requests);
-    } catch (error) {
-      throw { error };
-    }
-  };
 
   const uploadFile = async (
     file: File,
@@ -70,7 +40,7 @@ const useFirebaseStorage = () => {
     try {
       await uploadTask;
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-      return { data: { fullPath: uploadTask.snapshot.ref.fullPath, downloadURL } };
+      return { data: { storePath: uploadTask.snapshot.ref.fullPath, name, downloadURL } };
     } catch (e) {
       if (e instanceof FirebaseError) return { error: e };
       else return { error: { code: "", message: "데이터 등록 실패" } };
@@ -84,7 +54,37 @@ const useFirebaseStorage = () => {
     try {
       console.log("files : ", files);
       const requests = files.map(async (file) => {
-        return await uploadFile(file, path, uuid(), progressCallback);
+        return uploadFile(file, path, uuid(), progressCallback);
+      });
+      return Promise.all(requests);
+    } catch (error) {
+      throw { error };
+    }
+  };
+  const uploadDataURL = async (
+    data: string,
+    path: string,
+    name: string,
+  ): Promise<UploadFileResponse> => {
+    const storageRef = ref(storage, [path, name].join("/"));
+    try {
+      const res = await uploadString(storageRef, data, "data_url");
+      const downloadURL = await getDownloadURL(res.ref);
+
+      return { data: { storePath: res.ref.fullPath, name: res.ref.name, downloadURL } };
+    } catch (e) {
+      if (e instanceof FirebaseError) return { error: e };
+      else return { error: { code: "", message: "uploadBase64Image - 데이터 등록 실패" } };
+    }
+  };
+
+  const uploadDataURLs = async (
+    path: string,
+    datas: UploadDataURLData[],
+  ): Promise<UploadFileResponse[]> => {
+    try {
+      const requests = datas.map(async (data) => {
+        return await uploadDataURL(data.dataURL, path, data.name);
       });
       return Promise.all(requests);
     } catch (error) {

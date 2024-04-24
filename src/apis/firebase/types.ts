@@ -6,11 +6,19 @@ export interface FirebaseSigninResponse extends CommonResponse {
   data?: UserCredential;
 }
 export interface AddDocResponse extends CommonResponse {
-  data?: DocumentData;
+  data?: ICustomDocumentData;
+}
+export interface GetDocResponse<T extends ICustomDocumentData> extends CommonResponse {
+  data?: T;
+}
+export interface UploadDataURLData {
+  name: string;
+  dataURL: string;
 }
 export interface UploadFileResponse extends CommonResponse {
   data?: {
-    fullPath: string;
+    storePath: string;
+    name: string;
     downloadURL: string;
   };
 }

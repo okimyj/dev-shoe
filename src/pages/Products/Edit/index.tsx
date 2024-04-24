@@ -2,24 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import InnerBody from "@/pages/layout/body/inner/InnerBody";
-import useProductCreate from "./hooks";
+import useProductEdit from "./hooks";
 import SubModelList from "./Form/SubModelList";
 import ErrorLabel from "@/components/form/ErrorLabel";
 
-export interface ProductCreatePageProps {
-  productId?: string;
-  isEdit?: boolean;
-}
-const ProductCreatePage = ({ productId, isEdit }: ProductCreatePageProps) => {
-  const { handleCancel, handleSubmit } = useProductCreate({
-    productId,
-    isEdit,
-  });
-  const { form } = useProductCreate({ productId, isEdit });
+const ProductEditPage = () => {
+  const { form, isEdit, handleCancel, handleSubmit } = useProductEdit();
 
   return (
     <InnerBody>
       <form className="min-w-450pxr max-w-750pxr" onSubmit={form.handleSubmit(handleSubmit)}>
+        <input {...form.register("id")} />
         <h1 className="text-left">상품 등록</h1>
         <div className="my-10pxr flex-col space-y-10pxr">
           <div className="flex w-full flex-col items-start space-y-5pxr">
@@ -63,4 +56,4 @@ const ProductCreatePage = ({ productId, isEdit }: ProductCreatePageProps) => {
   );
 };
 
-export default ProductCreatePage;
+export default ProductEditPage;

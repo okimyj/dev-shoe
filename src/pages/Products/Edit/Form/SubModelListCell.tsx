@@ -37,7 +37,7 @@ const SubModelListCell = ({ form, index }: SubModelListCellProps) => {
 
       const images = await imagesToDataURL(Object.values(e.currentTarget.files));
       images.forEach((src) => {
-        appendImageField({ src });
+        appendImageField({ src, storePath: "" });
       });
     },
     [form, index, imageFields],
@@ -90,7 +90,7 @@ const SubModelListCell = ({ form, index }: SubModelListCellProps) => {
               />
             </Label>
             {imageFields.length > 0 && (
-              <ul className="h-80pxr my-10pxr space-x-5pxr">
+              <ul className="my-10pxr h-80pxr space-x-5pxr">
                 {imageFields.map((el, imageIdx) => (
                   <li className="float-left" key={imageIdx}>
                     <ThumbnailPreview

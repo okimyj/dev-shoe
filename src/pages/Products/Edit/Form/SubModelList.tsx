@@ -1,5 +1,5 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { ModelFormValue, SUBMODEL_FORM_DEFAULT_VALUE } from "./types";
+import { ModelFormValue, SUB_MODEL_FORM_DEFAULT_VALUE } from "./types";
 import { Button } from "@/components/ui/button";
 import SubModelListCell from "./SubModelListCell";
 import { CirclePlusIcon } from "lucide-react";
@@ -14,7 +14,7 @@ const SubModelList = ({ form }: SubModelListProps) => {
     control: form.control,
   });
   const onClickAppend = () => {
-    append(SUBMODEL_FORM_DEFAULT_VALUE);
+    append(SUB_MODEL_FORM_DEFAULT_VALUE);
   };
   const handleRemoveSubmodel = (index: number) => {
     remove(index);
@@ -22,7 +22,7 @@ const SubModelList = ({ form }: SubModelListProps) => {
   return (
     <div>
       {fields.map((el, index) => (
-        <SubModelListCell form={form} index={index} />
+        <SubModelListCell key={index} form={form} index={index} />
       ))}
       <Button
         className="mt-10pxr w-full space-x-10pxr"
