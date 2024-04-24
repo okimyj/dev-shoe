@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { IFormData, schema } from "./validation";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import useAuthAPI from "@/apis/auth";
 import { useNavigate } from "react-router-dom";
 import { useAlertPopupStore } from "@/common/stores/useAlertPopupStore";
@@ -12,7 +12,7 @@ const useAuthSignup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     mode: "onChange",
   });
   const navigate = useNavigate();

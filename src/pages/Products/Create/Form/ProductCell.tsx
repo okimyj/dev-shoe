@@ -10,11 +10,15 @@ interface ProductCellProps {
   index: number;
 }
 const ProductCell = ({ form, subModelIndex, index }: ProductCellProps) => {
+  const formError = form.formState.errors.subModels?.[subModelIndex]?.products?.[index];
   return (
     <div className="flex w-full flex-row items-center space-x-10pxr border-t py-10pxr">
       <Label>사이즈</Label>
       <div className="w-50pxr">
-        <Input {...form.register(`subModels.${subModelIndex}.products.${index}.name`)} />
+        <Input
+          isError={Boolean(formError?.name?.message)}
+          {...form.register(`subModels.${subModelIndex}.products.${index}.name`)}
+        />
       </div>
       <Label>수량</Label>
       <div className="w-50pxr">

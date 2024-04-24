@@ -1,34 +1,29 @@
 import { useAlertPopupStore } from "@/common/stores/useAlertPopupStore";
 import { ProductCreatePageProps } from ".";
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { ProductData, ProductModelData, ProductSubModelData } from "@/apis/product/types";
-import uuid from "react-uuid";
+import { ChangeEvent, useCallback, useState } from "react";
+import { ProductSubModelData } from "@/apis/product/types";
 import useProductAPI from "@/apis/product";
-import useFirebaseStorage from "@/apis/firebase/useFirebaseStorage";
 import useAuth from "@/hooks/useAuth";
-import { useFieldArray, useForm } from "react-hook-form";
-import { MODEL_FORM_DEFAULT_VALUE, ModelFormValue, ProductFormValue } from "./Form/types";
+import { useForm } from "react-hook-form";
+import { MODEL_FORM_DEFAULT_VALUE, ModelFormValue, modelSchema } from "./Form/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
+const useProductCreate = ({ productId, isEdit }: ProductCreatePageProps) => {
   const form = useForm<ModelFormValue>({
     defaultValues: MODEL_FORM_DEFAULT_VALUE,
+    resolver: zodResolver(modelSchema),
+    mode: "onChange",
   });
 
-  console.log("useProductCreate : ", modelId, isEdit);
   const { open: openAlert } = useAlertPopupStore();
   const { addProduct } = useProductAPI();
   const { userData } = useAuth();
-  const [originData, setOriginData] = useState<ProductModelData | null>();
   const [name, setName] = useState<string>();
   const [category, setCategory] = useState<string>();
   const [options, setOptions] = useState<ProductSubModelData[]>([]);
   const [testFiles, setTestFiles] = useState<File[]>();
 
-  const [imageUrl, setImageUrl] = useState<string>();
-  // useEffect(() => {
-  //   // TODO : request product Data.
-  // }, []);
   const navigate = useNavigate();
 
   const handleApplyOption = useCallback(
@@ -59,27 +54,28 @@ const useProductCreate = ({ modelId, isEdit }: ProductCreatePageProps) => {
     if (e.currentTarget.files) setTestFiles([...e.currentTarget.files]);
   };
 
-  const handleSubmit = useCallback(() => {
-    console.log("handleSubmit - ");
-    const products: ProductData[] = [
-      {
-        id: uuid(),
-        name: "testProduct1",
-        desc: "testProductDesc",
-        price: 189000,
-        quantity: 120,
-      },
-    ];
-    const subModels: ProductSubModelData[] = [
-      { id: uuid(), name: "testSubModel1", imageFiles: testFiles, products: products },
-    ];
-    const model: ProductModelData = {
-      id: uuid(),
-      name: "testModel",
-      category: "여성 신발",
-      subModels: subModels,
-    };
-    addProduct(model, userData?.email ?? "");
+  const handleSubmit = useCallback((data: ModelFormValue) => {
+    console.log("handleSubmit - ", data);
+    addProduct(data, userData?.email ?? "");
+    // const products: ProductData[] = [
+    //   {
+    //     id: uuid(),
+    //     name: "testProduct1",
+    //     desc: "testProductDesc",
+    //     price: 189000,
+    //     quantity: 120,
+    //   },
+    // ];
+    // const subModels: ProductSubModelData[] = [
+    //   { id: uuid(), name: "testSubModel1", imageFiles: testFiles, products: products },
+    // ];
+    // const model: ProductModelData = {
+    //   id: uuid(),
+    //   name: "testModel",
+    //   category: "여성 신발",
+    //   subModels: subModels,
+    // };
+    // addProduct(model, userData?.email ?? "");
   }, []);
   const handleCancel = useCallback(() => {
     openAlert({

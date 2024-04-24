@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { Label } from "../ui/label";
+import ErrorLabel from "./ErrorLabel";
 
 interface IInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -29,11 +30,7 @@ const InputField = ({
         {...register}
         {...rest}
       />
-      {error && (
-        <span className="col-span-2 col-start-2 grid-cols-subgrid text-left text-xs text-destructive">
-          {error}
-        </span>
-      )}
+      <ErrorLabel error={error} classNames="col-span-2 col-start-2 grid-cols-subgrid" />
     </div>
   );
 };

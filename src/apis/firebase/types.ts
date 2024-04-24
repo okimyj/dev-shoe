@@ -9,7 +9,10 @@ export interface AddDocResponse extends CommonResponse {
   data?: DocumentData;
 }
 export interface UploadFileResponse extends CommonResponse {
-  data?: { downloadURL: string };
+  data?: {
+    fullPath: string;
+    downloadURL: string;
+  };
 }
 export type ICustomDocumentData = DocumentData & {
   id?: string;
