@@ -1,15 +1,16 @@
 import { where } from "firebase/firestore";
 
 import { UserData, SigninResponse, UserDocumentData } from "./types";
-import { DB_TYPE } from "../firebase/constants";
+import { DBTypes } from "../firebase/constants";
 import { useAuthStore } from "@/common/stores/useAuthStore";
 import { User } from "@firebase/auth";
-import useFirebaseAuth from "../firebase/usefirebaseAuth";
-import useFirebaseDB from "../firebase/usefirebaseDB";
+import useFirebaseAuth from "../firebase/useFirebaseAuth";
+import useFirebaseDB from "../firebase/useFirebaseDB";
+
 const useAuthAPI = () => {
   const { userData, setData: setUserData } = useAuthStore();
   const onAuthStateChanged = async (data: User | null) => {
-    if (userData?.email !== data?.email) {
+    if (userData?.uid !== data?.uid) {
       const data = await getCurrentUser();
       setUserData(data);
     } else {
@@ -25,6 +26,7 @@ const useAuthAPI = () => {
     if (signupRes.error) {
       return { error: signupRes.error };
     }
+    userData.uid = signupRes.data?.user.uid ?? "";
     const res = await registerUserData(userData);
     return { data: userData };
   };
@@ -34,7 +36,7 @@ const useAuthAPI = () => {
       createdAt: Date.now().toString(),
       updatedAt: Date.now().toString(),
     };
-    return firebaseDB.addData(DB_TYPE.USERS, data);
+    return firebaseDB.addData(DBTypes.USERS, { id: data.uid, ...data });
   };
 
   const signIn = (email: string, password: string) => {
@@ -49,12 +51,9 @@ const useAuthAPI = () => {
   const getCurrentUser = async (): Promise<UserDocumentData | null> => {
     const currentUser = firebaseAuth.getCurrentUser();
     if (!currentUser) return null;
-    const res = await firebaseDB.getData(DB_TYPE.USERS, where("email", "==", currentUser.email));
-    let userData = null;
-    res.forEach((doc) => {
-      userData = doc.data();
-    });
-    return userData;
+    const res = await firebaseDB.getDataByDocId<UserDocumentData>(DBTypes.USERS, currentUser.uid);
+
+    return res.data ?? null;
   };
 
   return { signUp, signIn, signOut };

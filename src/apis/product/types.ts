@@ -1,22 +1,35 @@
 import { ICustomDocumentData } from "../firebase/types";
 
-export interface IModelData extends ICustomDocumentData {
+export interface ModelDocumentData extends ICustomDocumentData {
   sellerId: string;
   name: string;
-  description: string;
   category: string;
-  createdAt: string;
-  updatedAt: string;
-  image: string;
+  image: ImageStorageData;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
 }
-export interface IProductData extends ICustomDocumentData {
+export interface ImageStorageData extends ICustomDocumentData {
+  storePath: string;
+  downloadURL: string;
+}
+
+export interface SubModelDocumentData extends ICustomDocumentData {
+  modelId: string;
+  name: string;
+  images?: ImageStorageData[];
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
+}
+export interface ProductDocumentData extends ICustomDocumentData {
   modelId: string; // model 먼저 addDoc 하고...
+  subModelId: string;
+  name: string;
+  desc: string;
   price: number;
   quantity: number;
-  color: string;
-  size: string;
-  description: string;
-  images: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
 }

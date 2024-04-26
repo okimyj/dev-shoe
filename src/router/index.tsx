@@ -13,8 +13,9 @@ const RootRouter = () => {
       // errorElement: <App outlet={<Error />} />,
       children: [
         {
-          index: true,
+          path: "",
           element: <MainPage />,
+          // children: [...ProductRouter],
         },
         {
           path: "signin",

@@ -29,6 +29,10 @@ module.exports = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        error: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -82,7 +86,7 @@ module.exports = {
         defaultEn: ["Bakbak One"],
       },
       spacing: {
-        ...Array(5, 10, 200).reduce((acc, px) => {
+        ...Array(5, 10, 20, 25, 50, 80, 100, 150, 200, 450, 750).reduce((acc, px) => {
           acc[`${px}pxr`] = pxToRem(px);
           return acc;
         }, {}),

@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Black+Ops+One&display=swap');
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  padding:0;
   text-align: center;
 }
-
 .logo {
   height: 6em;
   padding: 1.5em;

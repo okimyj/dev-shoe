@@ -1,4 +1,6 @@
-export const DB_TYPE = {
+export const DBTypes = {
   USERS: "users",
+  MODELS: "models",
+  SUB_MODELS: "subModels",
   PRODUCTS: "products",
 };

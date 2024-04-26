@@ -1,6 +1,7 @@
-import ProductCreatePage from "@/pages/Products/Create";
+import ProductEditPage from "@/pages/Products/Edit";
 import { Outlet, RouteObject } from "react-router-dom";
 import { withPrivateRoute } from "../withAuthorityRoute";
+import ProductDetailPage from "@/pages/Products/Detail";
 
 export const ProductRouter: RouteObject[] = [
   {
@@ -9,14 +10,14 @@ export const ProductRouter: RouteObject[] = [
   },
   {
     path: "product/create",
-    element: withPrivateRoute(<ProductCreatePage />),
+    element: withPrivateRoute(<ProductEditPage />),
   },
   {
     path: "product/:id",
-    element: <div>상품 상세</div>,
+    element: <ProductDetailPage />,
   },
   {
-    path: "product/:id/update",
-    element: <div>상품 수정</div>,
+    path: "product/:id/edit",
+    element: withPrivateRoute(<ProductEditPage />),
   },
 ];
